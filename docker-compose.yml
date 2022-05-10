@@ -12,6 +12,7 @@ services:
       MYSQL_PASSWORD: wordpress
 
   wordpress:
+    image: antran2202/docker-wordpress:wp5.9.2_php7.4
     depends_on:
       - db
     build: ./
