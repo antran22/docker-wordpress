@@ -15,8 +15,10 @@ RUN apk --no-cache add \
   php7-phar \
   php7-intl \
   php7-dom \
+  php7-tokenizer \
   php7-xmlreader \
   php7-xmlwriter \
+  php7-session \
   php7-exif \
   php7-fileinfo \
   php7-sodium \
@@ -28,6 +30,7 @@ RUN apk --no-cache add \
   php7-opcache \
   php7-iconv \
   php7-pecl-imagick \
+  php7-bcmath \
   nginx \
   supervisor \
   curl \
@@ -50,8 +53,8 @@ WORKDIR /var/www/wp-content
 RUN chown -R nobody.nobody /var/www
 
 # WordPress
-ENV WORDPRESS_VERSION 5.9.3
-ENV WORDPRESS_SHA1 cab576e112c45806c474b3cbe0d1263a2a879adf
+ARG WORDPRESS_VERSION=5.9.3
+ARG WORDPRESS_SHA1=cab576e112c45806c474b3cbe0d1263a2a879adf
 
 RUN mkdir -p /usr/src
 
@@ -73,6 +76,9 @@ RUN chown nobody.nobody /usr/src/wordpress/wp-config.php && chmod 640 /usr/src/w
 # Append WP secrets
 COPY wp-secrets.php /usr/src/wordpress
 RUN chown nobody.nobody /usr/src/wordpress/wp-secrets.php && chmod 640 /usr/src/wordpress/wp-secrets.php
+
+# Append WP secrets
+COPY robots.txt /usr/src/wordpress
 
 # Entrypoint to copy wp-content
 COPY entrypoint.sh /entrypoint.sh

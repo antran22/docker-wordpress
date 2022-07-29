@@ -12,10 +12,14 @@ services:
       MYSQL_PASSWORD: wordpress
 
   wordpress:
-    image: antran2202/docker-wordpress:wp${WP_VERSION}_php7.4
+    image: antran2202/docker-wordpress:wp${WORDPRESS_VERSION}_php7.4
     depends_on:
       - db
-    build: ./
+    build: 
+      context: .
+      args: 
+        WORDPRESS_VERSION: ${WORDPRESS_VERSION}
+        WORDPRESS_SHA1: ${WORDPRESS_SHA1}
     volumes:
       - "site-data:/var/www/wp-content"
     ports:
